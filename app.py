@@ -127,18 +127,30 @@ except FileNotFoundError:
     )
     st.stop()
 
-CLASSES          = meta["classes"]
-NOMINAL_FEATURES = meta["nominal_features"]
-ORDINAL_FEATURES = meta["ordinal_features"]
-ORDINAL_CATS     = {k: v for k, v in zip(ORDINAL_FEATURES, meta["ordinal_categories"])}
-BINARY_FEATURES  = meta["binary_features"]
-NUMERIC_FEATURES = meta["numeric_features"]
-NOMINAL_OHE_COLS = meta["nominal_ohe_cols"]
-ALL_FEATURE_COLS = meta["feature_cols"]
+CLASSES             = meta["classes"]
+NOMINAL_FEATURES    = meta["nominal_features"]
+ORDINAL_FEATURES    = meta["ordinal_features"]
+ORDINAL_CATS        = {k: v for k, v in zip(ORDINAL_FEATURES, meta["ordinal_categories"])}
+BINARY_FEATURES     = meta["binary_features"]
+NUMERIC_FEATURES    = meta["numeric_features"]
+NOMINAL_OHE_COLS    = meta["nominal_ohe_cols"]
+ALL_FEATURE_COLS    = meta["feature_cols"]
+DECISION_THRESHOLD  = meta.get("decision_threshold", 0.5)
 
 
 def build_input_row(raw_inputs: dict) -> pd.DataFrame:
     """Convert widget values into a one-row DataFrame matching training columns."""
+    # Compute the engineered composite feature before building the row
+    raw_inputs = dict(raw_inputs)  # shallow copy — don't mutate caller's dict
+    raw_inputs["Readiness_Score"] = (
+        raw_inputs["Resume_Score"]
+        + raw_inputs["Interview_Score"]
+        + raw_inputs["Programming_Skill"]
+        + raw_inputs["Problem_Solving"]
+        + raw_inputs["Projects_Completed"]
+        + raw_inputs["Internships"]
+    ) / 6.0
+
     row = {}
 
     # Numeric: direct passthrough
@@ -204,16 +216,14 @@ st.divider()
 
 # ── Section 1: Academic Profile ──────────────────────────────────────────────
 st.markdown('<div class="section-band"><b>📚 Academic Profile</b></div>', unsafe_allow_html=True)
-c1, c2, c3, c4 = st.columns(4)
-age              = c1.number_input("Age",               min_value=17, max_value=35, value=21, step=1)
-cgpa             = c2.number_input("CGPA",              min_value=2.0, max_value=10.0, value=3.1, step=0.01, format="%.2f")
-attendance       = c3.number_input("Attendance (%)",    min_value=50, max_value=100, value=82, step=1)
-study_hours      = c4.number_input("Study Hours / Week", min_value=5, max_value=120, value=21, step=1)
+c1, c2, c3 = st.columns(3)
+cgpa             = c1.number_input("CGPA",              min_value=2.0, max_value=10.0, value=3.1, step=0.01, format="%.2f")
+attendance       = c2.number_input("Attendance (%)",    min_value=50, max_value=100, value=82, step=1)
+study_hours      = c3.number_input("Study Hours / Week", min_value=5, max_value=120, value=21, step=1)
 
-c5, c6, c7 = st.columns(3)
-university_year  = c5.selectbox("University Year",    ORDINAL_CATS["University_Year"])
-academic_perf    = c6.selectbox("Academic Performance", ORDINAL_CATS["Academic_Performance"])
-major            = c7.selectbox("Major",              [
+c4, c5, c6 = st.columns(3)
+academic_perf    = c4.selectbox("Academic Performance", ORDINAL_CATS["Academic_Performance"])
+major            = c5.selectbox("Major",              [
     "Computer Science", "Software Engineering", "Artificial Intelligence",
     "Data Science", "Cybersecurity", "Information Technology",
     "Business Analytics", "Electrical Engineering",
@@ -251,10 +261,9 @@ st.divider()
 
 # ── Section 4: Profiles ───────────────────────────────────────────────────────
 st.markdown('<div class="section-band"><b>🔗 Online Presence & Leadership</b></div>', unsafe_allow_html=True)
-c20, c21, c22 = st.columns(3)
+c20, c21 = st.columns(2)
 github_profile       = c20.radio("GitHub Profile",       ["Yes", "No"], horizontal=True)
-linkedin_profile     = c21.radio("LinkedIn Profile",     ["Yes", "No"], horizontal=True)
-leadership_exp       = c22.radio("Leadership Experience", ["Yes", "No"], horizontal=True)
+leadership_exp       = c21.radio("Leadership Experience", ["Yes", "No"], horizontal=True)
 
 st.divider()
 
@@ -263,7 +272,6 @@ predict_btn = st.button("Predict Placement", use_container_width=False)
 
 if predict_btn:
     raw_inputs = {
-        "Age":                  age,
         "Attendance_Percentage": attendance,
         "Study_Hours_Per_Week": study_hours,
         "CGPA":                 cgpa,
@@ -279,21 +287,20 @@ if predict_btn:
         "Interview_Score":      interview_sc,
         "GitHub_Profile":       github_profile,
         "Leadership_Experience": leadership_exp,
-        "LinkedIn_Profile":     linkedin_profile,
         "Academic_Performance": academic_perf,
         "English_Proficiency":  english_prof,
-        "University_Year":      university_year,
         "Gender":               gender,
         "Major":                major,
     }
 
-    input_df = build_input_row(raw_inputs)
-    pred_idx   = model.predict(input_df)[0]
-    pred_label = CLASSES[pred_idx]
+    input_df   = build_input_row(raw_inputs)
     pred_proba = model.predict_proba(input_df)[0]
 
     placed_prob    = pred_proba[CLASSES.index("Placed")]
     notplaced_prob = pred_proba[CLASSES.index("Not Placed")]
+
+    # Use the tuned threshold instead of the default 0.5
+    pred_label = "Placed" if placed_prob >= DECISION_THRESHOLD else "Not Placed"
 
     st.markdown("---")
     st.subheader("Prediction Result")

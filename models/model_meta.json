@@ -7,26 +7,24 @@
     "Placed"
   ],
   "feature_cols": [
-    "Age",
+    "Readiness_Score",
+    "Resume_Score",
+    "Interview_Score",
+    "Internships",
+    "Programming_Skill",
+    "Projects_Completed",
+    "Problem_Solving",
     "Attendance_Percentage",
     "Study_Hours_Per_Week",
     "CGPA",
-    "Programming_Skill",
-    "Projects_Completed",
-    "Certifications",
-    "Hackathons",
-    "Internships",
-    "Resume_Score",
     "Communication_Skills",
     "Teamwork",
-    "Problem_Solving",
-    "Interview_Score",
+    "Hackathons",
+    "Certifications",
     "GitHub_Profile",
     "Leadership_Experience",
-    "LinkedIn_Profile",
     "Academic_Performance",
     "English_Proficiency",
-    "University_Year",
     "Gender_Female",
     "Gender_Male",
     "Gender_Other",
@@ -40,30 +38,28 @@
     "Major_Software Engineering"
   ],
   "numeric_features": [
-    "Age",
+    "Readiness_Score",
+    "Resume_Score",
+    "Interview_Score",
+    "Internships",
+    "Programming_Skill",
+    "Projects_Completed",
+    "Problem_Solving",
     "Attendance_Percentage",
     "Study_Hours_Per_Week",
     "CGPA",
-    "Programming_Skill",
-    "Projects_Completed",
-    "Certifications",
-    "Hackathons",
-    "Internships",
-    "Resume_Score",
     "Communication_Skills",
     "Teamwork",
-    "Problem_Solving",
-    "Interview_Score"
+    "Hackathons",
+    "Certifications"
   ],
   "binary_features": [
     "GitHub_Profile",
-    "Leadership_Experience",
-    "LinkedIn_Profile"
+    "Leadership_Experience"
   ],
   "ordinal_features": [
     "Academic_Performance",
-    "English_Proficiency",
-    "University_Year"
+    "English_Proficiency"
   ],
   "ordinal_categories": [
     [
@@ -76,12 +72,6 @@
       "Basic",
       "Intermediate",
       "Advanced"
-    ],
-    [
-      "Freshman",
-      "Sophomore",
-      "Junior",
-      "Senior"
     ]
   ],
   "nominal_features": [
@@ -101,25 +91,34 @@
     "Major_Information Technology",
     "Major_Software Engineering"
   ],
-  "test_accuracy": 0.794,
-  "test_f1": 0.7949,
-  "test_auc": 0.7964,
+  "decision_threshold": 0.41,
+  "test_accuracy": 0.8094,
+  "test_f1": 0.7979,
+  "test_auc": 0.7986,
   "cv_results": {
     "Logistic Regression": {
-      "cv_f1_mean": 0.7663,
-      "cv_f1_std": 0.0045
+      "cv_f1_mean": 0.7661,
+      "cv_f1_std": 0.0041
     },
     "Random Forest": {
-      "cv_f1_mean": 0.7995,
-      "cv_f1_std": 0.0024
+      "cv_f1_mean": 0.7963,
+      "cv_f1_std": 0.0033
     },
     "Extra Trees": {
-      "cv_f1_mean": 0.7885,
-      "cv_f1_std": 0.0031
+      "cv_f1_mean": 0.7901,
+      "cv_f1_std": 0.0021
     },
     "Gradient Boosting": {
-      "cv_f1_mean": 0.7884,
-      "cv_f1_std": 0.0037
+      "cv_f1_mean": 0.7911,
+      "cv_f1_std": 0.0033
+    },
+    "XGBoost": {
+      "cv_f1_mean": 0.7629,
+      "cv_f1_std": 0.0022
+    },
+    "LightGBM": {
+      "cv_f1_mean": 0.7586,
+      "cv_f1_std": 0.0041
     }
   },
   "label_mapping": {
