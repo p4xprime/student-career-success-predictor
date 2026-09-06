@@ -117,6 +117,7 @@ def load_model():
 
 
 # ─── Load ─────────────────────────────────────────────────────────────────────
+model, meta = None, {}
 try:
     model, meta = load_model()
 except FileNotFoundError:
@@ -162,7 +163,8 @@ def build_input_row(raw_inputs: dict) -> pd.DataFrame:
         if ohe_col in row:
             row[ohe_col] = 1
 
-    return pd.DataFrame([row])[ALL_FEATURE_COLS]
+    df = pd.DataFrame([row])
+    return df.loc[:, ALL_FEATURE_COLS]
 
 
 # ─── Sidebar ──────────────────────────────────────────────────────────────────
