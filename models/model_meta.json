@@ -1,0 +1,129 @@
+{
+  "model_name": "Random Forest",
+  "target": "Placement_Status",
+  "problem_type": "classification",
+  "classes": [
+    "Not Placed",
+    "Placed"
+  ],
+  "feature_cols": [
+    "Age",
+    "Attendance_Percentage",
+    "Study_Hours_Per_Week",
+    "CGPA",
+    "Programming_Skill",
+    "Projects_Completed",
+    "Certifications",
+    "Hackathons",
+    "Internships",
+    "Resume_Score",
+    "Communication_Skills",
+    "Teamwork",
+    "Problem_Solving",
+    "Interview_Score",
+    "GitHub_Profile",
+    "Leadership_Experience",
+    "LinkedIn_Profile",
+    "Academic_Performance",
+    "English_Proficiency",
+    "University_Year",
+    "Gender_Female",
+    "Gender_Male",
+    "Gender_Other",
+    "Major_Artificial Intelligence",
+    "Major_Business Analytics",
+    "Major_Computer Science",
+    "Major_Cybersecurity",
+    "Major_Data Science",
+    "Major_Electrical Engineering",
+    "Major_Information Technology",
+    "Major_Software Engineering"
+  ],
+  "numeric_features": [
+    "Age",
+    "Attendance_Percentage",
+    "Study_Hours_Per_Week",
+    "CGPA",
+    "Programming_Skill",
+    "Projects_Completed",
+    "Certifications",
+    "Hackathons",
+    "Internships",
+    "Resume_Score",
+    "Communication_Skills",
+    "Teamwork",
+    "Problem_Solving",
+    "Interview_Score"
+  ],
+  "binary_features": [
+    "GitHub_Profile",
+    "Leadership_Experience",
+    "LinkedIn_Profile"
+  ],
+  "ordinal_features": [
+    "Academic_Performance",
+    "English_Proficiency",
+    "University_Year"
+  ],
+  "ordinal_categories": [
+    [
+      "Poor",
+      "Average",
+      "Good",
+      "Excellent"
+    ],
+    [
+      "Basic",
+      "Intermediate",
+      "Advanced"
+    ],
+    [
+      "Freshman",
+      "Sophomore",
+      "Junior",
+      "Senior"
+    ]
+  ],
+  "nominal_features": [
+    "Gender",
+    "Major"
+  ],
+  "nominal_ohe_cols": [
+    "Gender_Female",
+    "Gender_Male",
+    "Gender_Other",
+    "Major_Artificial Intelligence",
+    "Major_Business Analytics",
+    "Major_Computer Science",
+    "Major_Cybersecurity",
+    "Major_Data Science",
+    "Major_Electrical Engineering",
+    "Major_Information Technology",
+    "Major_Software Engineering"
+  ],
+  "test_accuracy": 0.794,
+  "test_f1": 0.7949,
+  "test_auc": 0.7964,
+  "cv_results": {
+    "Logistic Regression": {
+      "cv_f1_mean": 0.7663,
+      "cv_f1_std": 0.0045
+    },
+    "Random Forest": {
+      "cv_f1_mean": 0.7995,
+      "cv_f1_std": 0.0024
+    },
+    "Extra Trees": {
+      "cv_f1_mean": 0.7885,
+      "cv_f1_std": 0.0031
+    },
+    "Gradient Boosting": {
+      "cv_f1_mean": 0.7884,
+      "cv_f1_std": 0.0037
+    }
+  },
+  "label_mapping": {
+    "0": "Not Placed",
+    "1": "Placed"
+  }
+}
