@@ -210,7 +210,7 @@ attendance       = c3.number_input("Attendance (%)",    min_value=50, max_value=
 study_hours      = c4.number_input("Study Hours / Week", min_value=5, max_value=120, value=21, step=1)
 
 c5, c6, c7 = st.columns(3)
-university_year  = c5.selectbox("University Year",    ORDINAL_CATS["University_Year"])
+university_year  = c5.selectbox("University Year",      ORDINAL_CATS["University_Year"])
 academic_perf    = c6.selectbox("Academic Performance", ORDINAL_CATS["Academic_Performance"])
 major            = c7.selectbox("Major",              [
     "Computer Science", "Software Engineering", "Artificial Intelligence",
