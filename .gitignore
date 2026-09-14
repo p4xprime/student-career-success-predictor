@@ -26,5 +26,6 @@ ENV/
 .DS_Store
 Thumbs.db
 
-# Streamlit cache
-.streamlit/
+# Streamlit cache (secrets only)
+.streamlit/secrets.toml
+
